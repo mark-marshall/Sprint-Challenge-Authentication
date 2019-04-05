@@ -76,6 +76,11 @@ if(username && password) {
 }
 }
 
+/* 
+[GET] request to retrieve jokes array
+Must include a header with:
+"Authorization": "valid jwt"
+*/
 function getJokes(req, res) {
   const requestOptions = {
     headers: { accept: 'application/json' },
