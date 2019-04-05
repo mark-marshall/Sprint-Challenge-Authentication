@@ -1,13 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Container from './Components/Container';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        Hello World
-      </div>
-    );
-  }
-}
-
-export default App;
+ReactDOM.render(<Container />, document.getElementById('root'));
