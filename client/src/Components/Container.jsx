@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Redirect, NavLink } from 'react-router-dom';
 
 import axios from '../axios/axios';
 import * as url from '../consts/urlConsts';
@@ -130,9 +131,20 @@ class Container extends Component {
       });
   };
 
+  fireSignOut = () => {
+      this.clearItemLocalStore('token');
+  }
+
   render() {
     return (
       <div>
+          <nav>
+            <NavLink to='/signup'>Sign Up</NavLink>
+            <NavLink to='/signin'>Sign In</NavLink>
+            <NavLink to='/jokes'>Jokes</NavLink>
+            <button onClick={this.fireSignOut}>Sign Out</button>
+          </nav>
+
         <Signup
           userSignUp={this.state.userSignUp}
           signUpChangeHandler={this.signUpChangeHandler}
