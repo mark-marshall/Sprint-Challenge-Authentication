@@ -3,10 +3,15 @@ import React, { Component } from 'react';
 import axios from '../axios/axios';
 import * as url from '../consts/urlConsts';
 import Signup from './Signup';
+import Signin from './Signin';
 
 class Container extends Component {
   state = {
-    user: {
+    userSignUp: {
+      username: '',
+      password: '',
+    },
+    userSignIn: {
       username: '',
       password: '',
     },
@@ -35,10 +40,19 @@ class Container extends Component {
     });
   };
 
-  userChangeHandler = event => {
+  signUpChangeHandler = event => {
     this.setState({
-      user: {
-        ...this.state.user,
+      userSignUp: {
+        ...this.state.userSignUp,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
+  signInChangeHandler = event => {
+    this.setState({
+      userSignIn: {
+        ...this.state.userSignIn,
         [event.target.name]: event.target.value,
       },
     });
@@ -115,9 +129,14 @@ class Container extends Component {
     return (
       <div>
         <Signup
-          user={this.state.user}
-          userChangeHandler={this.userChangeHandler}
+          userSignUp={this.state.userSignUp}
+          signUpChangeHandler={this.signUpChangeHandler}
           fireSignUp={this.fireSignUp}
+        />
+        <Signin
+          userSignIn={this.state.userSignIn}
+          signInChangeHandler={this.signInChangeHandler}
+          fireSignIn={this.fireSignIn}
         />
       </div>
     );

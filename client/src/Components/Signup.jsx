@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Signup({ user, userChangeHandler, fireSignUp }) {
+export default function Signup({ userSignUp, signUpChangeHandler, fireSignUp }) {
     return (
    <div>
        <h2>Register</h2>
@@ -8,17 +8,17 @@ export default function Signup({ user, userChangeHandler, fireSignUp }) {
        name="username"
        type="text"
        placeholder="username"
-       value={user.username}
-       onChange={userChangeHandler}
+       value={userSignUp.username}
+       onChange={signUpChangeHandler}
        />
        <input
        name="password"
        type="password"
        placeholder="password"
-       value={user.password}
-       onChange={userChangeHandler}
+       value={userSignUp.password}
+       onChange={signUpChangeHandler}
        />
-        <button onClick={() => fireSignUp(user)}>Sign up</button>
+        <button onClick={() => fireSignUp(userSignUp)}>Sign up</button>
    </div>
     );
 }
