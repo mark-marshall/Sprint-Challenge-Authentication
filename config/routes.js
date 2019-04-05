@@ -1,6 +1,8 @@
 const axios = require('axios');
+const bcrypt = require('bcryptjs');
 
 const { authenticate } = require('../auth/authenticate');
+const generateToken = require('../auth/generateToken');
 
 module.exports = server => {
   server.post('/api/register', register);
