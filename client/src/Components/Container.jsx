@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect, NavLink } from 'react-router-dom';
+import { Route, Redirect, NavLink, withRouter } from 'react-router-dom';
 
 import axios from '../axios/axios';
 import * as url from '../consts/urlConsts';
@@ -87,7 +87,7 @@ class Container extends Component {
       .then(res => {
         const newToken = res.data.token;
         this.setItemLocalStore('token', newToken);
-        this.replaceUrl('/users');
+        this.replaceUrl('/jokes');
       })
       .catch(error => {
         const newError = error.message;
@@ -106,7 +106,7 @@ class Container extends Component {
       .then(res => {
         const newToken = res.data.token;
         this.setItemLocalStore('token', newToken);
-        this.replaceUrl('/users');
+        this.replaceUrl('/jokes');
       })
       .catch(error => {
         const newError = error.message;
@@ -132,33 +132,77 @@ class Container extends Component {
   };
 
   fireSignOut = () => {
-      this.clearItemLocalStore('token');
-  }
+    this.clearItemLocalStore('token');
+    this.replaceUrl('/signin');
+  };
 
   render() {
-    return (
-      <div>
+    if (this.state.error) {
+      return <div>Failed: {this.state.error}</div>;
+    } else {
+      return (
+        <div>
           <nav>
-            <NavLink to='/signup'>Sign Up</NavLink>
-            <NavLink to='/signin'>Sign In</NavLink>
-            <NavLink to='/jokes'>Jokes</NavLink>
+            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/signin">Sign In</NavLink>
+            <NavLink to="/jokes">Jokes</NavLink>
             <button onClick={this.fireSignOut}>Sign Out</button>
           </nav>
 
-        <Signup
-          userSignUp={this.state.userSignUp}
-          signUpChangeHandler={this.signUpChangeHandler}
-          fireSignUp={this.fireSignUp}
-        />
-        <Signin
-          userSignIn={this.state.userSignIn}
-          signInChangeHandler={this.signInChangeHandler}
-          fireSignIn={this.fireSignIn}
-        />
-        <Jokes jokes={this.state.jokes} grabJokesAsync={this.grabJokesAsync} />
-      </div>
-    );
+          <Route
+            exact
+            path="/"
+            render={() =>
+              !localStorage.getItem('token') ? (
+                <Redirect to="/signin" />
+              ) : (
+                <Redirect to="/jokes" />
+              )
+            }
+          />
+
+          <Route
+            path="/signup"
+            render={routeProps => (
+              <Signup
+                {...routeProps}
+                userSignUp={this.state.userSignUp}
+                signUpChangeHandler={this.signUpChangeHandler}
+                fireSignUp={this.fireSignUp}
+              />
+            )}
+          />
+
+          <Route
+            path="/signin"
+            render={routeProps => (
+              <Signin
+                {...routeProps}
+                userSignIn={this.state.userSignIn}
+                signInChangeHandler={this.signInChangeHandler}
+                fireSignIn={this.fireSignIn}
+              />
+            )}
+          />
+
+          <Route
+            path="/jokes"
+            render={routeProps =>
+              !localStorage.getItem('token') ? (
+                <Redirect to="/signin" />
+              ) : (
+                <Jokes
+                  {...routeProps}
+                  jokes={this.state.jokes}
+                  grabJokesAsync={this.grabJokesAsync}
+                />
+              )
+            }
+          />
+        </div>
+      );
+    }
   }
 }
 
-export default Container;
+export default withRouter(Container);
