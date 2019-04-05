@@ -4,6 +4,7 @@ import axios from '../axios/axios';
 import * as url from '../consts/urlConsts';
 import Signup from './Signup';
 import Signin from './Signin';
+import Jokes from './Jokes';
 
 class Container extends Component {
   state = {
@@ -33,7 +34,11 @@ class Container extends Component {
 
   resetUser = () => {
     this.setState({
-      user: {
+      userSignUp: {
+        username: '',
+        password: '',
+      },
+      userSignIn: {
         username: '',
         password: '',
       },
@@ -112,7 +117,7 @@ class Container extends Component {
     axios()
       .get(url.jokes)
       .then(jokes => {
-        if (jokes.length > 0) {
+        if (jokes) {
           const newJokes = jokes.data;
           this.setJokes(newJokes);
         } else {
@@ -138,6 +143,7 @@ class Container extends Component {
           signInChangeHandler={this.signInChangeHandler}
           fireSignIn={this.fireSignIn}
         />
+        <Jokes jokes={this.state.jokes} grabJokesAsync={this.grabJokesAsync} />
       </div>
     );
   }
