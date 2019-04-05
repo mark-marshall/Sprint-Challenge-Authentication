@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import axios from '../axios/axios';
 import * as url from '../consts/urlConsts';
+import Signup from './Signup';
 
 class Container extends Component {
   state = {
@@ -111,7 +112,15 @@ class Container extends Component {
   };
 
   render() {
-    return <div>Hello World</div>;
+    return (
+      <div>
+        <Signup
+          user={this.state.user}
+          userChangeHandler={this.userChangeHandler}
+          fireSignUp={this.fireSignUp}
+        />
+      </div>
+    );
   }
 }
 
